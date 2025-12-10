@@ -2,17 +2,18 @@
 
 import storageService from "../services/file.storage.service.js";
 import foodModel from "../models/food.model.js";
+import userModel from "../models/user.model.js";
 
 
 async function createFood (req,res){
 
     try{
 
-        console.log(req.foodPartner)
+        // console.log(req.foodPartner)
 
-        console.log(req.body)
+        // console.log(req.body)
 
-        console.log(req.file.buffer)
+        // console.log(req.file)
     
         const fileUploadResult = await storageService.fileUpload(req.file.buffer)
 
@@ -24,10 +25,6 @@ async function createFood (req,res){
             description: req.body.description,
             foodPartner: req.foodPartner._id
         })
-
-
-
-
         res.status(201).json({
             message : "item created",
            food : foodItem
@@ -39,6 +36,18 @@ async function createFood (req,res){
     }
 }
 
+async function getFood (req,res){
+    // console.log(req.foodItem)
+
+    const foodItems = await foodModel.find({});
+    res.status(200).json({
+        message:" all items found successfully",
+        foodItems
+    })
+
+}
+
 export default{
-    createFood
+    createFood,
+    getFood
 }
