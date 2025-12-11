@@ -33,8 +33,11 @@ body{background:var(--bg);color:var(--text);font-family:Inter, ui-sans-serif, sy
 
 .field textarea{padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);outline:none;resize:vertical}
 
-.row{display:flex;gap:12px}
-.row .field{flex:1}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row .field{flex:1;min-width:0}
+
+/* Prevent inputs/textarea from forcing the row to overflow */
+.field input, .field select, .field textarea{min-width:0;width:100%}
 
 .actions{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
 .btn{background:linear-gradient(90deg,var(--primary),var(--accent));color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}

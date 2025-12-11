@@ -4,6 +4,7 @@ import UserRegister from '../pages/UserRegister';
 import UserLogin from '../pages/UserLogin';
 import PartnerRegister from '../pages/PartnerRegister';
 import PartnerLogin from '../pages/PartnerLogin';
+import Home from '../pages/general/Home.jsx'
 
 const appRouter = () => {
   return (
@@ -14,6 +15,7 @@ const appRouter = () => {
                  <Route path="/user/login" element={<UserLogin/>} />
                  <Route path="/food-partner/register" element ={<PartnerRegister/>} />
                  <Route path="/food-partner/login" element = {<PartnerLogin/>} />
+                 <Route path="/" element = {<Home/>} />
             </Routes>
         </Router>
     </div>

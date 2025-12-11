@@ -1,8 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
+import axios from 'axios';
 
 const PartnerRegister = ()=>{
+
+  const navigate= useNavigate();
+  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const name =e.target.name.value;
+    const email =e.target.email.value;
+    const address =e.target.address.value;
+    const phone = e.target.phone.value;
+    const city =e.target.city.value;
+    const password= e.target.password.value;
+
+    // console.log(name);
+    // console.log(email);
+    // console.log(address);
+    // console.log(phone);
+    // console.log(city);
+    // console.log(password);
+
+    const response = await axios.post("http://localhost:3000/api/auth/foodpartner/register",{
+      name,email,address,phone,city,password
+    },{
+      withCredentials:true
+    })
+
+    console.log(response.data);
+    navigate("/")
+    // TODO: replace with real submit logic
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-card">
@@ -12,36 +45,40 @@ const PartnerRegister = ()=>{
           <div style={{marginTop:10}} className="small">Looking for a user account? <Link to="/user/register">Switch to user register</Link></div>
         </div>
 
-        <form className="auth-form" onSubmit={(e)=>e.preventDefault()}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="field">
             <label>Business name</label>
-            <input type="text" placeholder="e.g. The Green Spoon" />
+            <input name ='name' type="text" placeholder="e.g. The Green Spoon" />
           </div>
 
           <div className="field">
             <label>Contact email</label>
-            <input type="email" placeholder="owner@restaurant.com" />
+            <input name = 'email' type="email" placeholder="owner@restaurant.com" />
           </div>
 
           <div className="field">
             <label>Address</label>
-            <textarea rows={3} placeholder="Street address, suite, postal code" />
+            <textarea name = 'address' rows={3} placeholder="Street address, suite, postal code" />
           </div>
 
           <div className="row">
             <div className="field">
               <label>Phone</label>
-              <input type="tel" placeholder="+1 555 555 5555" />
+              <input name = 'phone' type="tel" placeholder="+1 555 555 5555" />
             </div>
             <div className="field">
               <label>City</label>
-              <input type="text" placeholder="City" />
+              <input
+                type="text"
+                name="city"
+                placeholder="City"
+              />
             </div>
           </div>
 
           <div className="field">
             <label>Password</label>
-            <input type="password" placeholder="Create a password" />
+            <input name= 'password' type="password" placeholder="Create a password" />
           </div>
 
           <div className="divider" />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/auth.css';
 
 const PartnerLogin = ()=>{
-  return (
+return (
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">

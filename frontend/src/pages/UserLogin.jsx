@@ -12,7 +12,12 @@ const UserLogin = ()=>{
           <div style={{marginTop:10}} className="small">Are you a partner? <Link to="/food-partner/login">Switch to partner</Link></div>
         </div>
 
-        <form className="auth-form" onSubmit={(e)=>e.preventDefault()}>
+        <form className="auth-form" 
+        onSubmit={
+          (e)=>{
+            e.preventDefault()
+            }
+        }>
           <div className="field">
             <label>Email</label>
             <input type="email" placeholder="you@example.com" />
