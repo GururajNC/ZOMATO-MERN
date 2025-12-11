@@ -1,0 +1,28 @@
+/* Centralized theme variables. Uses system preference for light/dark. */
+:root{
+  --bg: #ffffff;
+  --card-bg: #ffffff;
+  --text: #0f1722;
+  --muted: #6b7280;
+  --primary: #0ea5a4; /* teal */
+  --accent: #06b6d4;
+  --input-bg: #f8fafc;
+  --border: #e6eef0;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(11,22,33,0.06);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b1220;
+    --card-bg: #071022;
+    --text: #e6eef6;
+    --muted: #94a3b8;
+    --primary: #06b6d4;
+    --accent: #0ea5a4;
+    --input-bg: #071426;
+    --border: rgba(255,255,255,0.06);
+    --radius: 12px;
+    --shadow: 0 6px 20px rgba(2,6,23,0.6);
+  }
+}
