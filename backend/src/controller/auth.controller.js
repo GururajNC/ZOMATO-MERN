@@ -22,6 +22,8 @@ async function registerUser(req,res){
             email,
             password : hashedPassword
         })
+
+        // console.log(user.fullName);
         
         const token = jwt.sign({
             id: user._id
@@ -35,7 +37,8 @@ async function registerUser(req,res){
                 id:user._id,
                 name:user.fullName,
                 email:user.email
-            }
+            },
+            
         })
         
             
@@ -53,7 +56,7 @@ async function loginUser(req,res){
     })
 
     if(!user){
-        res.status(400).json({
+        return res.status(400).json({
             message:"user not found"
         })
     }
@@ -61,7 +64,7 @@ async function loginUser(req,res){
     const isPasswordValid = await bcrypt.compare(password,user.password)
 
     if(!isPasswordValid){
-        res.status(400).json({
+        return res.status(400).json({
             message:"invalid password"
         })
     }
@@ -72,7 +75,7 @@ async function loginUser(req,res){
 
     res.cookie("token",token);
 
-    res.status(200).json({
+    return res.status(200).json({
         message:"user logged in successfully",
         user :{
             id : user._id,

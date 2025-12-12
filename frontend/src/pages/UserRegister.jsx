@@ -23,13 +23,13 @@ const UserRegister = ()=>{
         onSubmit={
          async (e)=>{
             e.preventDefault();
-            const fullname = e.target.fullName.value;
+            const fullName = e.target.fullName.value;
             const email = e.target.email.value;
             const password = e.target.password.value;
-
+            console.log(fullName);
             const response = await axios.post("http://localhost:3000/api/auth/user/register",
               {
-                fullname,
+                fullName,
                 email,
                 password
               },

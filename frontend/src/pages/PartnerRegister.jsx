@@ -32,7 +32,7 @@ const PartnerRegister = ()=>{
     })
 
     console.log(response.data);
-    navigate("/")
+    navigate("/createfoodpartner")
     // TODO: replace with real submit logic
   };
 

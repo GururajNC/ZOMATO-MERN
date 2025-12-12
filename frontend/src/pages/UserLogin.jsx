@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
+import axios from 'axios'
 
 const UserLogin = ()=>{
+  const navigate = useNavigate();
   return (
     <div className="auth-page">
       <div className="auth-card">
@@ -14,18 +16,33 @@ const UserLogin = ()=>{
 
         <form className="auth-form" 
         onSubmit={
-          (e)=>{
-            e.preventDefault()
+          async(e)=>{
+            e.preventDefault();
+            
+            const email= e.target.email.value;
+            const password=e.target.password.value;
+
+            const response = await axios.post("http://localhost:3000/api/auth/user/login",
+            {
+              email,
+              password
+            },{
+              withCredentials:true
+            })
+            console.log(email);
+            console.log(password);
+            console.log(response.data);
+            navigate("/")
             }
         }>
           <div className="field">
             <label>Email</label>
-            <input type="email" placeholder="you@example.com" />
+            <input id='email' name='email' type="email" placeholder="you@example.com" />
           </div>
 
           <div className="field">
             <label>Password</label>
-            <input type="password" placeholder="Your password" />
+            <input id='password' name='password' type="password" placeholder="Your password" />
           </div>
 
           <div className="actions">

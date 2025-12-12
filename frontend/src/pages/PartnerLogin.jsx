@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/auth.css';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const PartnerLogin = ()=>{
+  const navigate=useNavigate()
+  
 return (
     <div className="auth-page">
       <div className="auth-card">
@@ -12,15 +16,30 @@ return (
           <div style={{marginTop:10}} className="small">Looking for a user account? <Link to="/user/login">Switch to user sign in</Link></div>
         </div>
 
-        <form className="auth-form" onSubmit={(e)=>e.preventDefault()}>
+        <form className="auth-form" onSubmit={async(e)=>{e.preventDefault();
+        const email=e.target.email.value;
+        const password =e.target.password.value;
+        console.log(email);
+        console.log(password);
+       const response= await axios.post("http://localhost:3000/api/auth/foodpartner/login",{
+          email,
+          password
+        },{
+          withCredentials:true
+        })
+
+        console.log(response.data);
+        navigate("/createfoodpartner")
+        }
+        }>
           <div className="field">
             <label>Email</label>
-            <input type="email" placeholder="owner@restaurant.com" />
+            <input id='email' name='email' type="email" placeholder="owner@restaurant.com" />
           </div>
 
           <div className="field">
             <label>Password</label>
-            <input type="password" placeholder="Your password" />
+            <input id='password' name='password' type="password" placeholder="Your password" />
           </div>
 
           <div className="actions">
