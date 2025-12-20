@@ -3,6 +3,8 @@
 import storageService from "../services/file.storage.service.js";
 import foodModel from "../models/food.model.js";
 import userModel from "../models/user.model.js";
+import foodPartnerModel from "../models/foodPartner.model.js";
+
 
 
 async function createFood (req,res){
@@ -47,7 +49,19 @@ async function getFood (req,res){
 
 }
 
+async function getFoodPatnerById(req,res){
+
+    const getPartner = req.params.id
+
+    const profile= await foodPartnerModel.findById(getPartner);
+    res.status(200).json({
+        message:" profile extracted",
+        profile
+    })
+}
+
 export default{
     createFood,
-    getFood
+    getFood,
+    getFoodPatnerById
 }

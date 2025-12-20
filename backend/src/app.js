@@ -5,6 +5,7 @@ import router from "./routes/auth.router.js";
 import foodRouter from "./routes/food.router.js";
 import dotenv from "dotenv"
 import cors from'cors'
+import foodPartnerRouter from "./routes/food-partner.router.js"
 dotenv.config();
 
 
@@ -28,7 +29,9 @@ app.get("/",(req,res)=>{
 
 
 app.use("/api/auth",router);
-app.use("/api/food",foodRouter)
+app.use("/api/food",foodRouter);
+app.use("/api/food-partner",foodPartnerRouter);
+
 
 
 export default app;

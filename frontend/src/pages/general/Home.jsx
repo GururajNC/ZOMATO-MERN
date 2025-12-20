@@ -79,7 +79,7 @@ const Home = () => {
         <section className="reel-item" key={item._id}>
           <div className="reel-overlay">
             <p className="reel-desc">{item.description}</p>
-            <Link className="reel-btn"  to={item.foodPartner}>Visit Store</Link>
+            <Link className="reel-btn"  to={"/food-partner/" + item.foodPartner}>Visit Store</Link>
           </div>
 
           <video
