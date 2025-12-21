@@ -29,7 +29,7 @@ app.get("/",(req,res)=>{
 
 
 app.use("/api/auth",router);
-app.use("/api/food",foodRouter);
+app.use("/api/food",foodRouter)
 app.use("/api/food-partner",foodPartnerRouter);
 
 

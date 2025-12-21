@@ -4,8 +4,8 @@ import storageService from "../services/file.storage.service.js";
 import foodModel from "../models/food.model.js";
 import userModel from "../models/user.model.js";
 import foodPartnerModel from "../models/foodPartner.model.js";
-
-
+import likeModel from "../models/like.model.js";
+import saveModel from "../models/save.model.js";
 
 async function createFood (req,res){
 
@@ -49,19 +49,92 @@ async function getFood (req,res){
 
 }
 
-async function getFoodPatnerById(req,res){
+async function likeFood(req,res){
 
-    const getPartner = req.params.id
+    const {foodId} = req.body;
+    const user = req.user;
 
-    const profile= await foodPartnerModel.findById(getPartner);
-    res.status(200).json({
-        message:" profile extracted",
-        profile
+    const alreadyExist = await likeModel.findOne({
+        user : user._id,
+        food : foodId
+    });
+
+    if (alreadyExist) {
+        await likeModel.deleteOne({
+            user : user._id,
+            food : foodId
+        })
+
+        await likeFood.findByIdAndUpdate(foodId,{
+            inc$ : {likeCount: -1}
+        })
+
+        return res.status(200).json({
+            message : "unliked successfull"
+        })
+    }
+
+    const like = await foodModel.create({
+        user : user._id,
+        food : foodId
     })
+    await likeModel.findByIdAndUpdate(findId,{
+        inc$ : {likeCount: 1}
+    })
+
+    return res.status(201).json({
+        like
+    })
+
 }
+
+async function saveFood(res,req){
+    const user = req.user;
+    const foodId = req.body;
+
+    const alreadyExist = await saveModel.findOne({
+        user : user._id,
+        food : foodId
+    });
+
+    if(alreadyExist){
+        await saveModel.deleteOne({
+            user :user._id,
+            food:foodId
+        })
+
+        await foodModel.findIdByAndUpdate(foodId,{
+            inc$ : {saveCount : -1}
+        })
+        
+        return res.status(200).json({
+            message : "removed from save"
+        })
+    }
+
+    const SaveFood = await saveModel.create({
+        user : user._id,
+        food : foodId
+    })
+
+    await foodModel.findIdByAndUpdate(foodId,{
+            inc$ : {saveCount : 1}
+    })
+
+    
+
+    return res.status(201).json({
+        SaveFood
+    })
+
+}
+
+
 
 export default{
     createFood,
     getFood,
-    getFoodPatnerById
+    likeFood,
+    saveFood
+    
 }

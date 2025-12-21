@@ -3,6 +3,7 @@ import foodController from "../controller/food.controller.js";
 import foodMiddleware from "../middlerware/food.middleware.js";
 import multer from "multer";
 
+
 const upload = multer({
     storage: multer.memoryStorage()
 })
@@ -26,5 +27,16 @@ router.get(
 )
 
 
+router.post(
+    "/like",
+    foodMiddleware.authUserMiddleware,
+    foodController.likeFood
+)
+
+router.post(
+    "/save",
+    foodMiddleware.authUserMiddleware,
+    foodController.saveFood
+)
 
 export default router;

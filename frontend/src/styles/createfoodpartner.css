@@ -1,0 +1,91 @@
+@import './theme.css';
+
+/* Mobile-first styles for Create Food Partner page */
+.create-food-page{
+  min-height:100vh;
+  background:var(--bg);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:20px 14px 40px;
+  color:var(--text);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+.create-food-card{
+  width:100%;
+  max-width:520px;
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  box-sizing:border-box;
+}
+/* decorative accent */
+.create-food-card::before{
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.create-food-card{
+  position: relative;
+  overflow: visible;
+}
+
+.create-food-card::after{
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -30px;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg,var(--primary),var(--accent));
+  opacity: 0.08;
+  transform: rotate(22deg);
+  border-radius: 20px;
+  filter: blur(8px);
+}
+
+.create-header{margin-bottom:12px}
+.create-header .title-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.create-header h1{margin:0;font-size:20px;letter-spacing:0.2px}
+.create-header .sub{margin:6px 0 0;color:var(--muted);font-size:13px}
+/* badges removed */
+
+.create-form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.label-emoji{font-size:14px}
+.field input[type="text"], .field textarea{
+  padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);outline:none;transition:box-shadow .18s ease, transform .12s ease
+}
+.field input[type="text"]:focus, .field textarea:focus{box-shadow:0 6px 18px rgba(6,22,30,0.08);transform:translateY(-1px);border-color:rgba(0,0,0,0.06)}
+.field textarea{min-height:110px;resize:vertical}
+.field textarea{min-height:100px;resize:vertical}
+.actions{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:6px}
+.btn{background:linear-gradient(90deg,var(--primary),var(--accent));color:white;padding:10px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:700;transition:transform .12s ease, box-shadow .12s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(6,22,30,0.12)}
+.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+
+.muted{color:var(--muted);font-size:12px;margin-left:6px}
+
+.file-drop{display:block;border-radius:12px;border:1px dashed var(--border);background:transparent;padding:10px;cursor:pointer}
+.file-drop-inner{display:flex;align-items:center;gap:12px}
+.file-icon{font-size:24px}
+.file-text{font-size:13px;color:var(--muted)}
+.video-preview{margin-top:8px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--input-bg);position:relative}
+.video-wrap{position:relative}
+.video-wrap video{display:block;width:100%;height:auto}
+.play-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.36);color:white;padding:10px 14px;border-radius:999px;font-weight:700;pointer-events:none;opacity:0.9}
+
+/* Larger screens */
+@media (min-width:720px){
+  .create-food-page{padding:40px}
+  .create-header h2{font-size:20px}
+}
+
+@media (min-width:980px){
+  .create-food-card{max-width:720px}
+}

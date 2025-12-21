@@ -9,7 +9,7 @@ const router=express.Router();
 
 router.get(
     "/:id",
-    // foodMiddleware.authFoodPartnerMiddleware,
+    foodMiddleware.authFoodPartnerMiddleware,
     foodPatnerController.getFoodPatnerById
 )
 
