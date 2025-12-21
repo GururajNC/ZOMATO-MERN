@@ -1,2 +1,6 @@
 .env
 node_modules
+videos/
+uploads/
+*.mp4
+*.fdmdownload
