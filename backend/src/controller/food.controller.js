@@ -53,7 +53,7 @@ async function likeFood(req,res){
 
     const {foodId} = req.body;
     const user = req.user;
-
+    console.log(user);
     const alreadyExist = await likeModel.findOne({
         user : user._id,
         food : foodId
@@ -65,8 +65,8 @@ async function likeFood(req,res){
             food : foodId
         })
 
-        await likeFood.findByIdAndUpdate(foodId,{
-            inc$ : {likeCount: -1}
+        await foodModel.findByIdAndUpdate(foodId,{
+            $inc : {likeCount: - 1}
         })
 
         return res.status(200).json({
@@ -74,19 +74,20 @@ async function likeFood(req,res){
         })
     }
 
-    const like = await foodModel.create({
+    const like = await likeModel.create({
         user : user._id,
         food : foodId
     })
-    await likeModel.findByIdAndUpdate(findId,{
-        inc$ : {likeCount: 1}
+    await foodModel.findByIdAndUpdate(foodId,{
+        $inc : {likeCount: 1}
     })
 
     return res.status(201).json({
+         message: "Liked successfully",
         like
-    })
-
-}
+    });
+    
+} 
 
 async function saveFood(res,req){
     const user = req.user;
@@ -104,7 +105,7 @@ async function saveFood(res,req){
         })
 
         await foodModel.findIdByAndUpdate(foodId,{
-            inc$ : {saveCount : -1}
+            $inc : {saveCount : -1}
         })
         
         return res.status(200).json({
@@ -135,6 +136,5 @@ export default{
     createFood,
     getFood,
     likeFood,
-    saveFood
-    
+    saveFood 
 }

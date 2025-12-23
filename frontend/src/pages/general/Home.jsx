@@ -80,13 +80,13 @@ const Home = () => {
     });
   },[])
 
-  useEffect(() => {
-    // ensure likes entries exist
-    const map = {}
-    videos.forEach((v) => { map[v._id] = likes[v._id] || 0 })
-    setLikes(map)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videos])
+  // useEffect(() => {
+  //   // ensure likes entries exist
+  //   const map = {}
+  //   videos.forEach((v) => { map[v._id] = likes[v._id] || 0 })
+  //   setLikes(map)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [videos])
 
   const toggleSave = (item) => {
     try {
@@ -97,12 +97,35 @@ const Home = () => {
       setSavedIds(next.map((s) => s._id))
     } catch (e) { console.error(e) }
   }
+async function handleLike(item) {
+ 
 
-  const handleLike = (item) => {
+    // console.log(item._id);
+    const response = await axios.post(
+      "http://localhost:3000/api/food/like",
+      { foodId: item._id },
+      { withCredentials: true }
+    );
 
-    
-    setLikes((prev) => ({ ...prev, [item._id]: (prev[item._id] || 0) + 1 }))
+    console.log(response.data.like)
+
+    if(response.data.like){
+      console.log("liked video");
+      setVideos((prev)=>
+        prev.map(v=>
+          v._id===item._id ? {...v, likeCount : v.likeCount + 1} : v
+        )
+      )
+    }else {
+      console.log("unliked video ");
+      setVideos((prev)=>
+        prev.map(v=>
+          v._id===item._id ? {...v, likeCount : v.likeCount -1 } : v
+        )
+      )
+    }
   }
+
 
   const handleComment = (item) => {
     const text = prompt('Add comment:')
@@ -123,7 +146,7 @@ const Home = () => {
               <button className="icon-btn" onClick={() => handleLike(item)} aria-label="like">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 .0-7.8z"></path></svg>
               </button>
-              <div className="icon-meta">likes: {likes[item._id] || 0}</div>
+              <div className="icon-meta">likes: {item.likeCount}</div>
             </div>
 
             <div className="reel-icon-wrap">
