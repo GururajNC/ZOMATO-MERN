@@ -88,15 +88,31 @@ const Home = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [videos])
 
-  const toggleSave = (item) => {
-    try {
-      const stored = JSON.parse(localStorage.getItem('savedVideos') || '[]')
-      const exists = stored.find((s) => s._id === item._id)
-      const next = exists ? stored.filter((s) => s._id !== item._id) : [item, ...stored]
-      localStorage.setItem('savedVideos', JSON.stringify(next))
-      setSavedIds(next.map((s) => s._id))
-    } catch (e) { console.error(e) }
+  async function toggleSave(item){
+   const response = await axios.post(
+    "http://localhost:3000/api/food/save",
+    { foodId: item._id }, 
+    { withCredentials: true }
+  )
+    console.log(response.data);
+    if (response.data.SaveFood){
+      // console.log("saved video")
+   setVideos((prev)=>
+        prev.map(v=>
+          v._id===item._id ? {...v, saveCount : v.saveCount + 1} : v
+        )
+      )
+  }else{
+    // console.log("removed from save (1)")
+     setVideos(prev=>
+      prev.map(
+        v=>v._id===item._id ? {...v , saveCount: v.saveCount - 1 } : v 
+      )
+    )
   }
+
+  }
+  
 async function handleLike(item) {
  
 
@@ -107,7 +123,7 @@ async function handleLike(item) {
       { withCredentials: true }
     );
 
-    console.log(response.data.like)
+    // console.log(response.data.like)
 
     if(response.data.like){
       console.log("liked video");
@@ -150,17 +166,17 @@ async function handleLike(item) {
             </div>
 
             <div className="reel-icon-wrap">
-              <button className={`icon-btn ${savedIds.includes(item._id) ? 'saved' : ''}`} onClick={() => toggleSave(item)} aria-label="save">
+              <button className={`icon-btn `} onClick={() => toggleSave(item)} aria-label="save">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
               </button>
-              <div className="icon-meta">save: {savedIds.includes(item._id) ? 1 : 0}</div>
+              <div className="icon-meta">save: {item.saveCount}</div>
             </div>
 
             <div className="reel-icon-wrap">
               <button className="icon-btn" onClick={() => handleComment(item)} aria-label="comment">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
               </button>
-              <div className="icon-meta">comment: {item.commentsCount || 0}</div>
+              <div className="icon-meta">comment: {item.commentsCount }</div>
             </div>
           </div>
 

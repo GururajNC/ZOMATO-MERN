@@ -1,21 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import '../../styles/reels.css'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Saved = () => {
   const [saved, setSaved] = useState([])
 
-  useEffect(() => {
-    try {
-      const s = JSON.parse(localStorage.getItem('savedVideos') || '[]')
-      setSaved(s)
-    } catch (e) { setSaved([]) }
-  }, [])
+useEffect(() => {
+  axios
+    .get("http://localhost:3000/api/food/save", { withCredentials: true })
+    .then(response => {
 
-  const remove = (id) => {
-    const next = saved.filter((s) => s._id !== id)
-    localStorage.setItem('savedVideos', JSON.stringify(next))
-    setSaved(next)
+      const savedFoods = response.data.savedFoods
+        .filter(item => item.food) // ✅ EXTRA SAFETY
+        .map(item => ({
+          _id: item.food._id,
+          video: item.food.video,
+          description: item.food.description,
+          likeCount: item.food.likeCount,
+          savesCount: item.food.savesCount,
+          commentsCount: item.food.commentsCount,
+          foodPartner: item.food.foodPartner,
+        }));
+
+      setSaved(savedFoods);
+    })
+    .catch(err => {
+      console.error(err);
+      setSaved([]);
+    });
+}, []);
+
+
+  const remove = async (id) => {
+    const response = await axios.post(
+    "http://localhost:3000/api/food/save",
+    { foodId: id }, 
+    { withCredentials: true }
+  )
+
+  console.log(response.data);
+     setSaved(prev => prev.filter(item => item._id !== id));
   }
 
   return (

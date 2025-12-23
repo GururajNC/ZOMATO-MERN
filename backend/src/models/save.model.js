@@ -17,6 +17,4 @@ const saveFoodSchema = mongoose.Schema({
 
 const saveModel = mongoose.model('saveFood',saveFoodSchema);
 
-export default {
-    saveModel
-}
+export default saveModel

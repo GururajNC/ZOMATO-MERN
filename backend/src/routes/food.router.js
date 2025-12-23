@@ -39,4 +39,11 @@ router.post(
     foodController.saveFood
 )
 
+
+router.get(
+    "/save",
+    foodMiddleware.authUserMiddleware,
+    foodController.getSaveFood
+)
+
 export default router;

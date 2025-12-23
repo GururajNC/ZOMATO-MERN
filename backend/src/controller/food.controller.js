@@ -89,9 +89,18 @@ async function likeFood(req,res){
     
 } 
 
-async function saveFood(res,req){
+async function saveFood(req,res){
+    
+
     const user = req.user;
-    const foodId = req.body;
+    const {foodId }= req.body;
+
+//     console.log(user)
+//     console.log(foodId)
+
+//     console.log(saveModel);
+// console.log(typeof saveModel);
+
 
     const alreadyExist = await saveModel.findOne({
         user : user._id,
@@ -104,7 +113,7 @@ async function saveFood(res,req){
             food:foodId
         })
 
-        await foodModel.findIdByAndUpdate(foodId,{
+        await foodModel.findByIdAndUpdate(foodId,{
             $inc : {saveCount : -1}
         })
         
@@ -118,17 +127,34 @@ async function saveFood(res,req){
         food : foodId
     })
 
-    await foodModel.findIdByAndUpdate(foodId,{
-            inc$ : {saveCount : 1}
+    await foodModel.findByIdAndUpdate(foodId,{
+            $inc : {saveCount : 1}
     })
-
-    
 
     return res.status(201).json({
+        message: "video saved",
         SaveFood
     })
-
+        
+    
 }
+
+async function getSaveFood(req, res) {
+  const user = req.user;
+
+  const savedFoods = await saveModel
+    .find({ user: user._id })
+    .populate("food");
+
+  // ✅ FILTER BROKEN REFERENCES
+  const validSavedFoods = savedFoods.filter(item => item.food);
+
+  return res.status(200).json({
+    message: "Saved foods retrieved successfully",
+    savedFoods: validSavedFoods
+  });
+}
+
 
 
 
@@ -136,5 +162,6 @@ export default{
     createFood,
     getFood,
     likeFood,
-    saveFood 
+    saveFood ,
+    getSaveFood
 }
